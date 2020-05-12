@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mapper.SpecialistMapper">
+
+    <resultMap type="Specialist" id="SpecialistResult">
+        <result property="sId"    column="s_id"    />
+        <result property="sName"    column="s_name"    />
+        <result property="sSex"    column="s_sex"    />
+        <result property="sExpert"    column="s_expert"    />
+        <result property="sCompany"    column="s_company"    />
+    </resultMap>
+
+    <sql id="selectSpecialistVo">
+        select s_id, s_name, s_sex, s_expert, s_company from specialist
+    </sql>
+
+    <select id="selectSpecialistList" parameterType="Specialist" resultMap="SpecialistResult">
+        <include refid="selectSpecialistVo"/>
+        <where>
+            <if test="sName != null  and sName != ''"> and s_name like concat('%', #{sName}, '%')</if>
+            <if test="sSex != null "> and s_sex = #{sSex}</if>
+            <if test="sExpert != null  and sExpert != ''"> and s_expert = #{sExpert}</if>
+            <if test="sCompany != null  and sCompany != ''"> and s_company = #{sCompany}</if>
+        </where>
+    </select>
+
+    <select id="selectSpecialistById" parameterType="Long" resultMap="SpecialistResult">
+        <include refid="selectSpecialistVo"/>
+        where s_id = #{sId}
+    </select>
+
+    <insert id="insertSpecialist" parameterType="Specialist" useGeneratedKeys="true" keyProperty="sId">
+        insert into specialist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sName != null  and sName != ''">s_name,</if>
+            <if test="sSex != null ">s_sex,</if>
+            <if test="sExpert != null  and sExpert != ''">s_expert,</if>
+            <if test="sCompany != null  and sCompany != ''">s_company,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sName != null  and sName != ''">#{sName},</if>
+            <if test="sSex != null ">#{sSex},</if>
+            <if test="sExpert != null  and sExpert != ''">#{sExpert},</if>
+            <if test="sCompany != null  and sCompany != ''">#{sCompany},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSpecialist" parameterType="Specialist">
+        update specialist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sName != null  and sName != ''">s_name = #{sName},</if>
+            <if test="sSex != null ">s_sex = #{sSex},</if>
+            <if test="sExpert != null  and sExpert != ''">s_expert = #{sExpert},</if>
+            <if test="sCompany != null  and sCompany != ''">s_company = #{sCompany},</if>
+        </trim>
+        where s_id = #{sId}
+    </update>
+
+    <delete id="deleteSpecialistById" parameterType="Long">
+        delete from specialist where s_id = #{sId}
+    </delete>
+
+    <delete id="deleteSpecialistByIds" parameterType="String">
+        delete from specialist where s_id in
+        <foreach item="sId" collection="array" open="(" separator="," close=")">
+            #{sId}
+        </foreach>
+    </delete>
+
+</mapper>

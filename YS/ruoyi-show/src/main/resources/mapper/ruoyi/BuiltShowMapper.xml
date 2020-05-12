@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mapper.BuiltShowMapper">
+
+    <resultMap type="BuiltShow" id="BuiltShowResult">
+        <result property="bId"    column="b_id"    />
+        <result property="bName"    column="b_name"    />
+        <result property="bNumber"    column="b_number"    />
+        <result property="bTenderee"    column="b_tenderee"    />
+        <result property="bMoney"    column="b_money"    />
+        <result property="bPattern"    column="b_pattern"    />
+        <result property="bPosition"    column="b_position"    />
+        <result property="bForm"    column="b_form"    />
+        <result property="bTerritory"    column="b_territory"    />
+        <result property="bManager"    column="b_manager"    />
+        <result property="bPrincipal"    column="b_principal"    />
+        <result property="bDate"    column="b_date"    />
+        <result property="bStatus"    column="b_status"    />
+    </resultMap>
+
+    <sql id="selectBuiltShowVo">
+        select b_id, b_name, b_number, b_tenderee, b_money, b_pattern, b_position, b_form, b_territory, b_manager, b_principal, b_date, b_status from built_show
+    </sql>
+
+    <select id="selectBuiltShowList" parameterType="BuiltShow" resultMap="BuiltShowResult">
+        <include refid="selectBuiltShowVo"/>
+        <where>
+            <if test="bName != null  and bName != ''"> and b_name like concat('%', #{bName}, '%')</if>
+            <if test="bNumber != null "> and b_number = #{bNumber}</if>
+            <if test="bTenderee != null  and bTenderee != ''"> and b_tenderee = #{bTenderee}</if>
+            <if test="bMoney != null  and bMoney != ''"> and b_money = #{bMoney}</if>
+            <if test="bPattern != null "> and b_pattern = #{bPattern}</if>
+            <if test="bPosition != null  and bPosition != ''"> and b_position = #{bPosition}</if>
+            <if test="bForm != null  and bForm != ''"> and b_form = #{bForm}</if>
+            <if test="bTerritory != null  and bTerritory != ''"> and b_territory = #{bTerritory}</if>
+            <if test="bManager != null  and bManager != ''"> and b_manager = #{bManager}</if>
+            <if test="bPrincipal != null  and bPrincipal != ''"> and b_principal = #{bPrincipal}</if>
+            <!--<if test="bDate != null "> and b_date = #{bDate}</if>-->
+
+
+            <if test="bStatus != null  and bStatus != ''"> and b_status = #{bStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectBuiltShowById" parameterType="Long" resultMap="BuiltShowResult">
+        <include refid="selectBuiltShowVo"/>
+        where b_id = #{bId}
+    </select>
+
+    <insert id="insertBuiltShow" parameterType="BuiltShow" useGeneratedKeys="true" keyProperty="bId">
+        insert into built_show
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bName != null  and bName != ''">b_name,</if>
+            <if test="bNumber != null ">b_number,</if>
+            <if test="bTenderee != null  and bTenderee != ''">b_tenderee,</if>
+            <if test="bMoney != null  and bMoney != ''">b_money,</if>
+            <if test="bPattern != null ">b_pattern,</if>
+            <if test="bPosition != null  and bPosition != ''">b_position,</if>
+            <if test="bForm != null  and bForm != ''">b_form,</if>
+            <if test="bTerritory != null  and bTerritory != ''">b_territory,</if>
+            <if test="bManager != null  and bManager != ''">b_manager,</if>
+            <if test="bPrincipal != null  and bPrincipal != ''">b_principal,</if>
+            <if test="bDate != null ">b_date,</if>
+            <if test="bStatus != null  and bStatus != ''">b_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bName != null  and bName != ''">#{bName},</if>
+            <if test="bNumber != null ">#{bNumber},</if>
+            <if test="bTenderee != null  and bTenderee != ''">#{bTenderee},</if>
+            <if test="bMoney != null  and bMoney != ''">#{bMoney},</if>
+            <if test="bPattern != null ">#{bPattern},</if>
+            <if test="bPosition != null  and bPosition != ''">#{bPosition},</if>
+            <if test="bForm != null  and bForm != ''">#{bForm},</if>
+            <if test="bTerritory != null  and bTerritory != ''">#{bTerritory},</if>
+            <if test="bManager != null  and bManager != ''">#{bManager},</if>
+            <if test="bPrincipal != null  and bPrincipal != ''">#{bPrincipal},</if>
+            <if test="bDate != null ">#{bDate},</if>
+            <if test="bStatus != null  and bStatus != ''">#{bStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBuiltShow" parameterType="BuiltShow">
+        update built_show
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bName != null  and bName != ''">b_name = #{bName},</if>
+            <if test="bNumber != null ">b_number = #{bNumber},</if>
+            <if test="bTenderee != null  and bTenderee != ''">b_tenderee = #{bTenderee},</if>
+            <if test="bMoney != null  and bMoney != ''">b_money = #{bMoney},</if>
+            <if test="bPattern != null ">b_pattern = #{bPattern},</if>
+            <if test="bPosition != null  and bPosition != ''">b_position = #{bPosition},</if>
+            <if test="bForm != null  and bForm != ''">b_form = #{bForm},</if>
+            <if test="bTerritory != null  and bTerritory != ''">b_territory = #{bTerritory},</if>
+            <if test="bManager != null  and bManager != ''">b_manager = #{bManager},</if>
+            <if test="bPrincipal != null  and bPrincipal != ''">b_principal = #{bPrincipal},</if>
+            <if test="bDate != null ">b_date = #{bDate},</if>
+            <if test="bStatus != null  and bStatus != ''">b_status = #{bStatus},</if>
+        </trim>
+        where b_id = #{bId}
+    </update>
+
+    <delete id="deleteBuiltShowById" parameterType="Long">
+        delete from built_show where b_id = #{bId}
+    </delete>
+
+    <delete id="deleteBuiltShowByIds" parameterType="String">
+        delete from built_show where b_id in
+        <foreach item="bId" collection="array" open="(" separator="," close=")">
+            #{bId}
+        </foreach>
+    </delete>
+
+</mapper>

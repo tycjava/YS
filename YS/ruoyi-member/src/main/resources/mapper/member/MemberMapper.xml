@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mapper.MemberMapper">
+
+    <resultMap type="Member" id="MemberResult">
+        <result property="mId"    column="m_id"    />
+        <result property="mMember"    column="m_member"    />
+        <result property="mRecorder"    column="m_recorder"    />
+        <result property="mSupervision"    column="m_supervision"    />
+        <result property="mWaiter"    column="m_waiter"    />
+        <result property="mB"    column="m_b"    />
+    </resultMap>
+
+    <sql id="selectMemberVo">
+        select m_id, m_member, m_recorder, m_supervision, m_waiter, m_b from member
+    </sql>
+
+    <select id="selectMemberList" parameterType="Member" resultMap="MemberResult">
+        <include refid="selectMemberVo"/>
+        <where>
+            <if test="mMember != null  and mMember != ''"> and m_member = #{mMember}</if>
+            <if test="mRecorder != null  and mRecorder != ''"> and m_recorder = #{mRecorder}</if>
+            <if test="mSupervision != null  and mSupervision != ''"> and m_supervision = #{mSupervision}</if>
+            <if test="mWaiter != null  and mWaiter != ''"> and m_waiter = #{mWaiter}</if>
+            <if test="mB != null "> and m_b = #{mB}</if>
+        </where>
+    </select>
+
+    <select id="selectMemberById" parameterType="Long" resultMap="MemberResult">
+        <include refid="selectMemberVo"/>
+        where m_id = #{mId}
+    </select>
+
+    <insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="mId">
+        insert into member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mMember != null  and mMember != ''">m_member,</if>
+            <if test="mRecorder != null  and mRecorder != ''">m_recorder,</if>
+            <if test="mSupervision != null  and mSupervision != ''">m_supervision,</if>
+            <if test="mWaiter != null  and mWaiter != ''">m_waiter,</if>
+            <if test="mB != null ">m_b,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mMember != null  and mMember != ''">#{mMember},</if>
+            <if test="mRecorder != null  and mRecorder != ''">#{mRecorder},</if>
+            <if test="mSupervision != null  and mSupervision != ''">#{mSupervision},</if>
+            <if test="mWaiter != null  and mWaiter != ''">#{mWaiter},</if>
+            <if test="mB != null ">#{mB},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMember" parameterType="Member">
+        update member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mMember != null  and mMember != ''">m_member = #{mMember},</if>
+            <if test="mRecorder != null  and mRecorder != ''">m_recorder = #{mRecorder},</if>
+            <if test="mSupervision != null  and mSupervision != ''">m_supervision = #{mSupervision},</if>
+            <if test="mWaiter != null  and mWaiter != ''">m_waiter = #{mWaiter},</if>
+            <if test="mB != null ">m_b = #{mB},</if>
+        </trim>
+        where m_id = #{mId}
+    </update>
+
+    <delete id="deleteMemberById" parameterType="Long">
+        delete from member where m_id = #{mId}
+    </delete>
+
+    <delete id="deleteMemberByIds" parameterType="String">
+        delete from member where m_id in
+        <foreach item="mId" collection="array" open="(" separator="," close=")">
+            #{mId}
+        </foreach>
+    </delete>
+
+</mapper>

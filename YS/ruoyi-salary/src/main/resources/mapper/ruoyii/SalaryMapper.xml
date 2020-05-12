@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mapper.SalaryMapper">
+
+    <resultMap type="Salary" id="SalaryResult">
+        <result property="sId"    column="s_id"    />
+        <result property="sName"    column="s_name"    />
+        <result property="sBasic"    column="s_basic"    />
+        <result property="sShould"    column="s_should"    />
+        <result property="sSalary"    column="s_salary"    />
+        <result property="sAward"    column="s_award"    />
+        <result property="sSubsidy"    column="s_subsidy"    />
+        <result property="sSubtotal1"    column="s_subtotal1"    />
+        <result property="sLeave"    column="s_leave"    />
+        <result property="sDeduct"    column="s_deduct"    />
+        <result property="sPunish"    column="s_punish"    />
+        <result property="sSubtotal2"    column="s_subtotal2"    />
+        <result property="sBaoxiao"    column="s_baoxiao"    />
+        <result property="sPractical"    column="s_practical"    />
+        <result property="sRemarks"    column="s_remarks"    />
+        <result property="sTime"    column="s_time"    />
+    </resultMap>
+
+    <sql id="selectSalaryVo">
+        select s_id, s_name, s_basic, s_should, s_salary, s_award, s_subsidy, s_subtotal1, s_leave, s_deduct, s_punish, s_subtotal2, s_baoxiao, s_practical, s_remarks, s_time from salary
+    </sql>
+
+    <select id="selectSalaryList" parameterType="Salary" resultMap="SalaryResult">
+        <include refid="selectSalaryVo"/>
+        <where>
+            <if test="sName != null  and sName != ''"> and s_name like concat('%', #{sName}, '%')</if>
+            <if test="sBasic != null "> and s_basic = #{sBasic}</if>
+            <if test="sShould != null  and sShould != ''"> and s_should = #{sShould}</if>
+            <if test="sSalary != null "> and s_salary = #{sSalary}</if>
+            <if test="sAward != null  and sAward != ''"> and s_award = #{sAward}</if>
+            <if test="sSubsidy != null  and sSubsidy != ''"> and s_subsidy = #{sSubsidy}</if>
+            <if test="sSubtotal1 != null  and sSubtotal1 != ''"> and s_subtotal1 = #{sSubtotal1}</if>
+            <if test="sLeave != null  and sLeave != ''"> and s_leave = #{sLeave}</if>
+            <if test="sDeduct != null  and sDeduct != ''"> and s_deduct = #{sDeduct}</if>
+            <if test="sPunish != null  and sPunish != ''"> and s_punish = #{sPunish}</if>
+            <if test="sSubtotal2 != null  and sSubtotal2 != ''"> and s_subtotal2 = #{sSubtotal2}</if>
+            <if test="sBaoxiao != null  and sBaoxiao != ''"> and s_baoxiao = #{sBaoxiao}</if>
+            <if test="sPractical != null  and sPractical != ''"> and s_practical = #{sPractical}</if>
+            <if test="sRemarks != null  and sRemarks != ''"> and s_remarks = #{sRemarks}</if>
+            <if test="sTime != null "> and s_time = #{sTime}</if>
+        </where>
+    </select>
+
+    <select id="selectSalaryById" parameterType="Long" resultMap="SalaryResult">
+        <include refid="selectSalaryVo"/>
+        where s_id = #{sId}
+    </select>
+
+    <insert id="insertSalary" parameterType="Salary" useGeneratedKeys="true" keyProperty="sId">
+        insert into salary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sName != null  and sName != ''">s_name,</if>
+            <if test="sBasic != null ">s_basic,</if>
+            <if test="sShould != null  and sShould != ''">s_should,</if>
+            <if test="sSalary != null ">s_salary,</if>
+            <if test="sAward != null  and sAward != ''">s_award,</if>
+            <if test="sSubsidy != null  and sSubsidy != ''">s_subsidy,</if>
+            <if test="sSubtotal1 != null  and sSubtotal1 != ''">s_subtotal1,</if>
+            <if test="sLeave != null  and sLeave != ''">s_leave,</if>
+            <if test="sDeduct != null  and sDeduct != ''">s_deduct,</if>
+            <if test="sPunish != null  and sPunish != ''">s_punish,</if>
+            <if test="sSubtotal2 != null  and sSubtotal2 != ''">s_subtotal2,</if>
+            <if test="sBaoxiao != null  and sBaoxiao != ''">s_baoxiao,</if>
+            <if test="sPractical != null  and sPractical != ''">s_practical,</if>
+            <if test="sRemarks != null  and sRemarks != ''">s_remarks,</if>
+            <if test="sTime != null ">s_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sName != null  and sName != ''">#{sName},</if>
+            <if test="sBasic != null ">#{sBasic},</if>
+            <if test="sShould != null  and sShould != ''">#{sShould},</if>
+            <if test="sSalary != null ">#{sSalary},</if>
+            <if test="sAward != null  and sAward != ''">#{sAward},</if>
+            <if test="sSubsidy != null  and sSubsidy != ''">#{sSubsidy},</if>
+            <if test="sSubtotal1 != null  and sSubtotal1 != ''">#{sSubtotal1},</if>
+            <if test="sLeave != null  and sLeave != ''">#{sLeave},</if>
+            <if test="sDeduct != null  and sDeduct != ''">#{sDeduct},</if>
+            <if test="sPunish != null  and sPunish != ''">#{sPunish},</if>
+            <if test="sSubtotal2 != null  and sSubtotal2 != ''">#{sSubtotal2},</if>
+            <if test="sBaoxiao != null  and sBaoxiao != ''">#{sBaoxiao},</if>
+            <if test="sPractical != null  and sPractical != ''">#{sPractical},</if>
+            <if test="sRemarks != null  and sRemarks != ''">#{sRemarks},</if>
+            <if test="sTime != null ">#{sTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSalary" parameterType="Salary">
+        update salary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sName != null  and sName != ''">s_name = #{sName},</if>
+            <if test="sBasic != null ">s_basic = #{sBasic},</if>
+            <if test="sShould != null  and sShould != ''">s_should = #{sShould},</if>
+            <if test="sSalary != null ">s_salary = #{sSalary},</if>
+            <if test="sAward != null  and sAward != ''">s_award = #{sAward},</if>
+            <if test="sSubsidy != null  and sSubsidy != ''">s_subsidy = #{sSubsidy},</if>
+            <if test="sSubtotal1 != null  and sSubtotal1 != ''">s_subtotal1 = #{sSubtotal1},</if>
+            <if test="sLeave != null  and sLeave != ''">s_leave = #{sLeave},</if>
+            <if test="sDeduct != null  and sDeduct != ''">s_deduct = #{sDeduct},</if>
+            <if test="sPunish != null  and sPunish != ''">s_punish = #{sPunish},</if>
+            <if test="sSubtotal2 != null  and sSubtotal2 != ''">s_subtotal2 = #{sSubtotal2},</if>
+            <if test="sBaoxiao != null  and sBaoxiao != ''">s_baoxiao = #{sBaoxiao},</if>
+            <if test="sPractical != null  and sPractical != ''">s_practical = #{sPractical},</if>
+            <if test="sRemarks != null  and sRemarks != ''">s_remarks = #{sRemarks},</if>
+            <if test="sTime != null ">s_time = #{sTime},</if>
+        </trim>
+        where s_id = #{sId}
+    </update>
+
+    <delete id="deleteSalaryById" parameterType="Long">
+        delete from salary where s_id = #{sId}
+    </delete>
+
+    <delete id="deleteSalaryByIds" parameterType="String">
+        delete from salary where s_id in
+        <foreach item="sId" collection="array" open="(" separator="," close=")">
+            #{sId}
+        </foreach>
+    </delete>
+
+</mapper>

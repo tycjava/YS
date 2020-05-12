@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+         <a href="/show/show/detail/1">返回</a>
+        <div class="row">
+
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="charge:charge:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="charge:charge:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="charge:charge:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="charge:charge:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('charge:charge:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('charge:charge:remove')}]];
+        var prefix = ctx + "charge/charge";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "【请填写功能名称】",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'chId',
+                    title: '金额id',
+                    visible: false
+                },
+                {
+                    field: 'chType',
+                    title: '金额类型(服务费/标书费/保证金)'
+                },
+                {
+                    field: 'chDatePledge',
+                    title: '保证金缴纳日期'
+                },
+                {
+                    field: 'chDateServe',
+                    title: '服务费缴纳日期'
+                },
+                {
+                    field: 'chDateBid',
+                    title: '标书费缴纳日期'
+                },
+                {
+                    field: 'chMoneyPledge',
+                    title: '保证金金额'
+                },
+                {
+                    field: 'chMoneyServe',
+                    title: '服务费金额'
+                },
+                {
+                    field: 'chMoneyBid',
+                    title: '标书费金额'
+                },
+                {
+                    field: 'chSectionPledae',
+                    title: '保证金标段'
+                },
+                {
+                    field: 'chSectionServe',
+                    title: '服务费标段'
+                },
+                {
+                    field: 'chSectionBid',
+                    title: '标书费标段'
+                },
+                {
+                    field: 'chRemarksPldae',
+                    title: '保证金备注'
+                },
+                {
+                    field: 'chRemarksServe',
+                    title: '服务费备注'
+                },
+                {
+                    field: 'chBillBid',
+                    title: '标书费发票号'
+                },
+                {
+                    field: 'chBillServe',
+                    title: '服务费发票号'
+                },
+                {
+                    field: 'chBillBidDate',
+                    title: '标书费发票日期'
+                },
+                {
+                    field: 'chBillServeDate',
+                    title: '服务费发票日期'
+                },
+                {
+                    field: 'chReturnPldaeMoney',
+                    title: '保证金退还金额'
+                },
+                {
+                    field: 'chReturnPldaeDate',
+                    title: '保证金退还日期'
+                },
+                {
+                    field: 'chSpecialistMoney',
+                    title: '专家费'
+                },
+                {
+                    field: 'chTotal',
+                    title: '合计金额'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.chId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.chId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

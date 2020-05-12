@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mapper.VacateMapper">
+
+    <resultMap type="Vacate" id="VacateResult">
+        <result property="vId"    column="v_id"    />
+        <result property="vName"    column="v_name"    />
+        <result property="vTime"    column="v_time"    />
+        <result property="vDay"    column="v_day"    />
+        <result property="vRemarks"    column="v_remarks"    />
+        <result property="vStatus"    column="v_status"    />
+    </resultMap>
+
+    <sql id="selectVacateVo">
+        select v_id, v_name, v_time, v_day, v_remarks, v_status from vacate
+    </sql>
+
+    <select id="selectVacateList" parameterType="Vacate" resultMap="VacateResult">
+        <include refid="selectVacateVo"/>
+        <where>
+            <if test="vName != null  and vName != ''"> and v_name like concat('%', #{vName}, '%')</if>
+            <if test="vTime != null "> and v_time = #{vTime}</if>
+            <if test="vDay != null  and vDay != ''"> and v_day = #{vDay}</if>
+            <if test="vRemarks != null  and vRemarks != ''"> and v_remarks = #{vRemarks}</if>
+            <if test="vStatus != null  and vStatus != ''"> and v_status = #{vStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectVacateById" parameterType="Long" resultMap="VacateResult">
+        <include refid="selectVacateVo"/>
+        where v_id = #{vId}
+    </select>
+
+    <insert id="insertVacate" parameterType="Vacate" useGeneratedKeys="true" keyProperty="vId">
+        insert into vacate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vName != null  and vName != ''">v_name,</if>
+            <if test="vTime != null ">v_time,</if>
+            <if test="vDay != null  and vDay != ''">v_day,</if>
+            <if test="vRemarks != null  and vRemarks != ''">v_remarks,</if>
+            <if test="vStatus != null  and vStatus != ''">v_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vName != null  and vName != ''">#{vName},</if>
+            <if test="vTime != null ">#{vTime},</if>
+            <if test="vDay != null  and vDay != ''">#{vDay},</if>
+            <if test="vRemarks != null  and vRemarks != ''">#{vRemarks},</if>
+            <if test="vStatus != null  and vStatus != ''">#{vStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVacate" parameterType="Vacate">
+        update vacate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vName != null  and vName != ''">v_name = #{vName},</if>
+            <if test="vTime != null ">v_time = #{vTime},</if>
+            <if test="vDay != null  and vDay != ''">v_day = #{vDay},</if>
+            <if test="vRemarks != null  and vRemarks != ''">v_remarks = #{vRemarks},</if>
+            <if test="vStatus != null  and vStatus != ''">v_status = #{vStatus},</if>
+        </trim>
+        where v_id = #{vId}
+    </update>
+
+    <delete id="deleteVacateById" parameterType="Long">
+        delete from vacate where v_id = #{vId}
+    </delete>
+
+    <delete id="deleteVacateByIds" parameterType="String">
+        delete from vacate where v_id in
+        <foreach item="vId" collection="array" open="(" separator="," close=")">
+            #{vId}
+        </foreach>
+    </delete>
+
+</mapper>

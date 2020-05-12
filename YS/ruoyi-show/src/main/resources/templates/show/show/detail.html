@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('详情')" />
+    <th:block th:include="include :: datetimepicker-css" />
+
+</head>
+<body class="white-bg">
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-show-detail" th:object="${builtShow}">
+            <input name="bId" th:field="*{bId}" type="hidden">
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#">首页</a>
+                </li>
+                <li><a href="/filesp/uploading?bId=*{bId}">文件审批</a></li>
+                <li><a href="/member/member">项目组成员</a></li>
+                <li><a href="/specialist/specialist">专家</a></li>
+            </ul>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目名称：</label>
+                <div class="col-sm-8">
+                    <input name="bName" th:field="*{bName}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目编号：</label>
+                <div class="col-sm-8">
+                    <input name="bNumber" th:field="*{bNumber}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">采购人：</label>
+                <div class="col-sm-8">
+                    <input name="bTenderee" th:field="*{bTenderee}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">委托金额：</label>
+                <div class="col-sm-8">
+                    <input name="bMoney" th:field="*{bMoney}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">采购方式：</label>
+                <div class="col-sm-8">
+                    <input name="bPattern" th:field="*{bPattern}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目资质：</label>
+                <div class="col-sm-8">
+                    <input name="bPosition" th:field="*{bPosition}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目类型：</label>
+                <div class="col-sm-8">
+                    <input name="bForm" th:field="*{bForm}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目地域：</label>
+                <div class="col-sm-8">
+                    <input name="bTerritory" th:field="*{bTerritory}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目经理：</label>
+                <div class="col-sm-8">
+                    <input name="bManager" th:field="*{bManager}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">项目承揽人：</label>
+                <div class="col-sm-8">
+                    <input name="bPrincipal" th:field="*{bPrincipal}" disabled =“disabled” class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备案日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="bDate" th:value="${#dates.format(builtShow.bDate, 'yyyy-MM-dd')}" disabled =“disabled” class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+            <div class="progress progress-info">
+                <div class="bar" style="width: 20%"></div>
+            </div>
+            <div class="progress progress-success">
+                <div class="bar" style="width: 40%"></div>
+            </div>
+            <div class="progress progress-warning">
+                <div class="bar" style="width: 60%"></div>
+            </div>
+            <div class="progress progress-danger">
+                <div class="bar" style="width: 80%"></div>
+            </div>
+            <div class="progress">
+                <div class="bar" style="width: 60%;"></div>
+            </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+
+    <script type="text/javascript">
+        var prefix = ctx + "show/show";
+        $("#form-show-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-show-edit').serialize());
+            }
+        }
+
+        $("input[name='bDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

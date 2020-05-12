@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mapper.FileUploadingMapper">
+
+    <resultMap type="FileUploading" id="FileUploadingResult">
+        <result property="fId"    column="f_id"    />
+        <result property="fType"    column="f_type"    />
+        <result property="fName"    column="f_name"    />
+        <result property="fAccessory"    column="f_accessory"    />
+        <result property="fPrincipal"    column="f_principal"    />
+        <result property="fTime"    column="f_time"    />
+        <result property="fDeadline"    column="f_deadline"    />
+        <result property="fRatify"    column="f_ratify"    />
+        <result property="fB"    column="f_b"    />
+    </resultMap>
+
+    <sql id="selectFileUploadingVo">
+        select f_id, f_type, f_name, f_accessory, f_principal, f_time, f_deadline, f_ratify, f_b from file_uploading
+    </sql>
+
+    <select id="selectFileUploadingList" parameterType="FileUploading" resultMap="FileUploadingResult">
+        <include refid="selectFileUploadingVo"/>
+        <where>
+            <if test="fType != null "> and f_type = #{fType}</if>
+            <if test="fName != null  and fName != ''"> and f_name like concat('%', #{fName}, '%')</if>
+            <if test="fAccessory != null  and fAccessory != ''"> and f_accessory = #{fAccessory}</if>
+            <if test="fPrincipal != null  and fPrincipal != ''"> and f_principal = #{fPrincipal}</if>
+            <if test="fTime != null "> and f_time = #{fTime}</if>
+            <if test="fDeadline != null "> and f_deadline = #{fDeadline}</if>
+            <if test="fRatify != null  and fRatify != ''"> and f_ratify = #{fRatify}</if>
+            <if test="fB != null "> and f_b = #{fB}</if>
+        </where>
+    </select>
+
+    <select id="selectFileUploadingById" parameterType="Long" resultMap="FileUploadingResult">
+        <include refid="selectFileUploadingVo"/>
+        where f_id = #{fId}
+    </select>
+
+    <insert id="insertFileUploading" parameterType="FileUploading">
+        insert into file_uploading
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fId != null ">f_id,</if>
+            <if test="fType != null ">f_type,</if>
+            <if test="fName != null  and fName != ''">f_name,</if>
+            <if test="fAccessory != null  and fAccessory != ''">f_accessory,</if>
+            <if test="fPrincipal != null  and fPrincipal != ''">f_principal,</if>
+            <if test="fTime != null ">f_time,</if>
+            <if test="fDeadline != null ">f_deadline,</if>
+            <if test="fRatify != null  and fRatify != ''">f_ratify,</if>
+            <if test="fB != null ">f_b,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fId != null ">#{fId},</if>
+            <if test="fType != null ">#{fType},</if>
+            <if test="fName != null  and fName != ''">#{fName},</if>
+            <if test="fAccessory != null  and fAccessory != ''">#{fAccessory},</if>
+            <if test="fPrincipal != null  and fPrincipal != ''">#{fPrincipal},</if>
+            <if test="fTime != null ">#{fTime},</if>
+            <if test="fDeadline != null ">#{fDeadline},</if>
+            <if test="fRatify != null  and fRatify != ''">#{fRatify},</if>
+            <if test="fB != null ">#{fB},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFileUploading" parameterType="FileUploading">
+        update file_uploading
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fType != null ">f_type = #{fType},</if>
+            <if test="fName != null  and fName != ''">f_name = #{fName},</if>
+            <if test="fAccessory != null  and fAccessory != ''">f_accessory = #{fAccessory},</if>
+            <if test="fPrincipal != null  and fPrincipal != ''">f_principal = #{fPrincipal},</if>
+            <if test="fTime != null ">f_time = #{fTime},</if>
+            <if test="fDeadline != null ">f_deadline = #{fDeadline},</if>
+            <if test="fRatify != null  and fRatify != ''">f_ratify = #{fRatify},</if>
+            <if test="fB != null ">f_b = #{fB},</if>
+        </trim>
+        where f_id = #{fId}
+    </update>
+
+    <delete id="deleteFileUploadingById" parameterType="Long">
+        delete from file_uploading where f_id = #{fId}
+    </delete>
+
+    <delete id="deleteFileUploadingByIds" parameterType="String">
+        delete from file_uploading where f_id in
+        <foreach item="fId" collection="array" open="(" separator="," close=")">
+            #{fId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改【请填写功能名称】')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-member-edit" th:object="${member}">
+            <input name="mId" th:field="*{mId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目主持人：</label>
+                <div class="col-sm-8">
+                    <input name="mMember" th:field="*{mMember}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目记录人：</label>
+                <div class="col-sm-8">
+                    <input name="mRecorder" th:field="*{mRecorder}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目监标人：</label>
+                <div class="col-sm-8">
+                    <input name="mSupervision" th:field="*{mSupervision}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目服务人：</label>
+                <div class="col-sm-8">
+                    <input name="mWaiter" th:field="*{mWaiter}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目展示外键：</label>
+                <div class="col-sm-8">
+                    <input name="mB" th:field="*{mB}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "member/member";
+        $("#form-member-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-member-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

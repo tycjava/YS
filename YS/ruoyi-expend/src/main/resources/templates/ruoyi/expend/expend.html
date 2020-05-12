@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>项目名：</label>
+                            <input type="text" name="chName"/>
+                        </li>
+                        <li>
+                            <label>保证金金额：</label>
+                            <input type="text" name="chMoneyPledge"/>
+                        </li>
+                        <li>
+                            <label>服务费金额：</label>
+                            <input type="text" name="chMoneyServe"/>
+                        </li>
+                        <li>
+                            <label>标书费金额：</label>
+                            <input type="text" name="chMoneyBid"/>
+                        </li>
+                        <li class="select-time">
+                        <label>服务费缴纳日期：</label>
+        <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginChDateServe]"/>
+            <span>-</span>
+            <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endChDateServe]"/>
+            </li>
+            <li>
+            <label>支入金额：</label>
+        <input type="text" name="chCount"/>
+            </li>
+            <li>
+            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+        <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+        </li>
+        </ul>
+        </div>
+        </form>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+            </div>
+            </div>
+            </div>
+            <th:block th:include="include :: footer" />
+            <script th:inline="javascript">
+        var removeFlag = [[${@permission.hasPermi('ruoyi:charge:remove')}]];
+        var prefix = ctx + "ruoyi/expend";
+        $(function() {
+            var options = {
+                url: prefix + "/listserve",
+                showFooter: true,
+
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "【请填写功能名称】",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                        field: 'chName',
+                        title: '项目名'
+                },
+                {
+                     field : 'chMoneyServe',
+                     title : '服务费金额',
+                     footerFormatter: function(value){
+                         var sum = 0;
+                         for (var i=0;i<value.length;i++) {
+                             sum += value[i].chMoneyServe
+                         }
+                         return "服务费总金额:"+sum;
+                     }
+                 },
+                 {
+                     field: 'chMoneyBid',
+                     title: '标书费金额 ',
+                     footerFormatter:function (value) {
+                         var sumBalanceB = 0;
+                         for (var i in value) {
+                             sumBalanceB += parseFloat(value[i].chMoneyBid);
+                         }
+                         return "标书费总金额:"+ sumBalanceB;
+                     }
+                  },
+                  {
+                    field: 'chDateServe',
+                    title: '服务费缴纳日期'
+                  },
+                  {
+                      field:'chCount',
+                      title:'支入金额',
+                    // align: 'center',
+                   // formatter: function(value, row, index) {
+                    // var actions = [];
+                    // var ss=row.chMoneyServe+row.chMoneyBid
+                    //  actions.push(ss);
+                    //  return actions.join('');
+                    // },
+                    footerFormatter:function (value) {
+                        var sumBalance = 0;
+                        for (var i=0;i<value.length;i++) {
+                            sumBalance += value[i].chCount;
+                        }
+                        return "收入总金额：" + sumBalance;
+                    }
+                }
+                ]
+
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

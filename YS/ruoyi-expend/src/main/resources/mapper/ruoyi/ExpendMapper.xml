@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mapper.ExpendMapper">
+
+    <resultMap type="Expend" id="ExpendResult">
+        <result property="chId"    column="ch_id"    />
+        <result property="chName"    column="ch_name"    />
+        <result property="chType"    column="ch_type"    />
+        <result property="chDatePledge"    column="ch_date_pledge"    />
+        <result property="chDateServe"    column="ch_date_serve"    />
+        <result property="chDateBid"    column="ch_date_bid"    />
+        <result property="chMoneyPledge"    column="ch_money_pledge"    />
+        <result property="chMoneyServe"    column="ch_money_serve"    />
+        <result property="chMoneyBid"    column="ch_money_bid"    />
+        <result property="chSectionPledae"    column="ch_section_pledae"    />
+        <result property="chSectionServe"    column="ch_section_serve"    />
+        <result property="chSectionBid"    column="ch_section_bid"    />
+        <result property="chRemarksPldae"    column="ch_remarks_pldae"    />
+        <result property="chRemarksServe"    column="ch_remarks_serve"    />
+        <result property="chBillBid"    column="ch_bill_bid"    />
+        <result property="chBillServe"    column="ch_bill_serve"    />
+        <result property="chBillBidDate"    column="ch_bill_bid_date"    />
+        <result property="chBillServeDate"    column="ch_bill_serve_date"    />
+        <result property="chReturnPldaeMoney"    column="ch_return_pldae_money"    />
+        <result property="chReturnPldaeDate"    column="ch_return_pldae_date"    />
+        <result property="chSpecialistMoney"    column="ch_specialist_money"    />
+        <result property="chCount"    column="ch_count"    />
+        <result property="chTotal"    column="ch_total"    />
+    </resultMap>
+
+    <sql id="selectChargeVo">
+        select ch_id, ch_name, ch_type, ch_date_pledge, ch_date_serve, ch_date_bid, ch_money_pledge, ch_money_serve, ch_money_bid, ch_section_pledae, ch_section_serve, ch_section_bid, ch_remarks_pldae, ch_remarks_serve, ch_bill_bid, ch_bill_serve, ch_bill_bid_date, ch_bill_serve_date, ch_return_pldae_money, ch_return_pldae_date, ch_specialist_money, ch_count, ch_total from charge
+    </sql>
+
+    <select id="selectChargeList" parameterType="Expend" resultMap="ExpendResult">
+        <include refid="selectChargeVo"/>
+        <where>
+            <if test="chName != null  and chName != ''"> and ch_name like concat('%', #{chName}, '%')</if>
+            <if test="chType != null  and chType != ''"> and ch_type = #{chType}</if>
+            <if test="chDatePledge != null "> and ch_date_pledge = #{chDatePledge}</if>
+            <if test="chDateServe != null "> and ch_date_serve = #{chDateServe}</if>
+            <if test="chDateBid != null "> and ch_date_bid = #{chDateBid}</if>
+            <if test="chMoneyPledge != null "> and ch_money_pledge = #{chMoneyPledge}</if>
+            <if test="chMoneyServe != null "> and ch_money_serve = #{chMoneyServe}</if>
+            <if test="chMoneyBid != null "> and ch_money_bid = #{chMoneyBid}</if>
+            <if test="chSectionPledae != null  and chSectionPledae != ''"> and ch_section_pledae = #{chSectionPledae}</if>
+            <if test="chSectionServe != null  and chSectionServe != ''"> and ch_section_serve = #{chSectionServe}</if>
+            <if test="chSectionBid != null  and chSectionBid != ''"> and ch_section_bid = #{chSectionBid}</if>
+            <if test="chRemarksPldae != null  and chRemarksPldae != ''"> and ch_remarks_pldae = #{chRemarksPldae}</if>
+            <if test="chRemarksServe != null  and chRemarksServe != ''"> and ch_remarks_serve = #{chRemarksServe}</if>
+            <if test="chBillBid != null  and chBillBid != ''"> and ch_bill_bid = #{chBillBid}</if>
+            <if test="chBillServe != null  and chBillServe != ''"> and ch_bill_serve = #{chBillServe}</if>
+            <if test="chBillBidDate != null "> and ch_bill_bid_date = #{chBillBidDate}</if>
+            <if test="chBillServeDate != null "> and ch_bill_serve_date = #{chBillServeDate}</if>
+            <if test="chReturnPldaeMoney != null  and chReturnPldaeMoney != ''"> and ch_return_pldae_money = #{chReturnPldaeMoney}</if>
+            <if test="chReturnPldaeDate != null "> and ch_return_pldae_date = #{chReturnPldaeDate}</if>
+            <if test="chSpecialistMoney != null  and chSpecialistMoney != ''"> and ch_specialist_money = #{chSpecialistMoney}</if>
+            <if test="chCount != null "> and ch_count = #{chCount}</if>
+            <if test="chTotal != null  and chTotal != ''"> and ch_total = #{chTotal}</if>
+        </where>
+    </select>
+
+    <select id="selectChargeById" parameterType="Long" resultMap="ExpendResult">
+        <include refid="selectChargeVo"/>
+        where ch_id = #{chId}
+    </select>
+
+    <select id="selectChargeServe" parameterType="Expend" resultMap="ExpendResult">
+        <include refid="selectChargeVo"/>
+        where ch_money_serve !=0
+    </select>
+
+    <insert id="insertCharge" parameterType="Expend" useGeneratedKeys="true" keyProperty="chId">
+        insert into charge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chName != null  and chName != ''">ch_name,</if>
+            <if test="chType != null  and chType != ''">ch_type,</if>
+            <if test="chDatePledge != null ">ch_date_pledge,</if>
+            <if test="chDateServe != null ">ch_date_serve,</if>
+            <if test="chDateBid != null ">ch_date_bid,</if>
+            <if test="chMoneyPledge != null ">ch_money_pledge,</if>
+            <if test="chMoneyServe != null ">ch_money_serve,</if>
+            <if test="chMoneyBid != null ">ch_money_bid,</if>
+            <if test="chSectionPledae != null  and chSectionPledae != ''">ch_section_pledae,</if>
+            <if test="chSectionServe != null  and chSectionServe != ''">ch_section_serve,</if>
+            <if test="chSectionBid != null  and chSectionBid != ''">ch_section_bid,</if>
+            <if test="chRemarksPldae != null  and chRemarksPldae != ''">ch_remarks_pldae,</if>
+            <if test="chRemarksServe != null  and chRemarksServe != ''">ch_remarks_serve,</if>
+            <if test="chBillBid != null  and chBillBid != ''">ch_bill_bid,</if>
+            <if test="chBillServe != null  and chBillServe != ''">ch_bill_serve,</if>
+            <if test="chBillBidDate != null ">ch_bill_bid_date,</if>
+            <if test="chBillServeDate != null ">ch_bill_serve_date,</if>
+            <if test="chReturnPldaeMoney != null  and chReturnPldaeMoney != ''">ch_return_pldae_money,</if>
+            <if test="chReturnPldaeDate != null ">ch_return_pldae_date,</if>
+            <if test="chSpecialistMoney != null  and chSpecialistMoney != ''">ch_specialist_money,</if>
+            <if test="chCount != null ">ch_count,</if>
+            <if test="chTotal != null  and chTotal != ''">ch_total,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chName != null  and chName != ''">#{chName},</if>
+            <if test="chType != null  and chType != ''">#{chType},</if>
+            <if test="chDatePledge != null ">#{chDatePledge},</if>
+            <if test="chDateServe != null ">#{chDateServe},</if>
+            <if test="chDateBid != null ">#{chDateBid},</if>
+            <if test="chMoneyPledge != null ">#{chMoneyPledge},</if>
+            <if test="chMoneyServe != null ">#{chMoneyServe},</if>
+            <if test="chMoneyBid != null ">#{chMoneyBid},</if>
+            <if test="chSectionPledae != null  and chSectionPledae != ''">#{chSectionPledae},</if>
+            <if test="chSectionServe != null  and chSectionServe != ''">#{chSectionServe},</if>
+            <if test="chSectionBid != null  and chSectionBid != ''">#{chSectionBid},</if>
+            <if test="chRemarksPldae != null  and chRemarksPldae != ''">#{chRemarksPldae},</if>
+            <if test="chRemarksServe != null  and chRemarksServe != ''">#{chRemarksServe},</if>
+            <if test="chBillBid != null  and chBillBid != ''">#{chBillBid},</if>
+            <if test="chBillServe != null  and chBillServe != ''">#{chBillServe},</if>
+            <if test="chBillBidDate != null ">#{chBillBidDate},</if>
+            <if test="chBillServeDate != null ">#{chBillServeDate},</if>
+            <if test="chReturnPldaeMoney != null  and chReturnPldaeMoney != ''">#{chReturnPldaeMoney},</if>
+            <if test="chReturnPldaeDate != null ">#{chReturnPldaeDate},</if>
+            <if test="chSpecialistMoney != null  and chSpecialistMoney != ''">#{chSpecialistMoney},</if>
+            <if test="chCount != null ">#{chCount},</if>
+            <if test="chTotal != null  and chTotal != ''">#{chTotal},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCharge" parameterType="Expend">
+        update charge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chName != null  and chName != ''">ch_name = #{chName},</if>
+            <if test="chType != null  and chType != ''">ch_type = #{chType},</if>
+            <if test="chDatePledge != null ">ch_date_pledge = #{chDatePledge},</if>
+            <if test="chDateServe != null ">ch_date_serve = #{chDateServe},</if>
+            <if test="chDateBid != null ">ch_date_bid = #{chDateBid},</if>
+            <if test="chMoneyPledge != null ">ch_money_pledge = #{chMoneyPledge},</if>
+            <if test="chMoneyServe != null ">ch_money_serve = #{chMoneyServe},</if>
+            <if test="chMoneyBid != null ">ch_money_bid = #{chMoneyBid},</if>
+            <if test="chSectionPledae != null  and chSectionPledae != ''">ch_section_pledae = #{chSectionPledae},</if>
+            <if test="chSectionServe != null  and chSectionServe != ''">ch_section_serve = #{chSectionServe},</if>
+            <if test="chSectionBid != null  and chSectionBid != ''">ch_section_bid = #{chSectionBid},</if>
+            <if test="chRemarksPldae != null  and chRemarksPldae != ''">ch_remarks_pldae = #{chRemarksPldae},</if>
+            <if test="chRemarksServe != null  and chRemarksServe != ''">ch_remarks_serve = #{chRemarksServe},</if>
+            <if test="chBillBid != null  and chBillBid != ''">ch_bill_bid = #{chBillBid},</if>
+            <if test="chBillServe != null  and chBillServe != ''">ch_bill_serve = #{chBillServe},</if>
+            <if test="chBillBidDate != null ">ch_bill_bid_date = #{chBillBidDate},</if>
+            <if test="chBillServeDate != null ">ch_bill_serve_date = #{chBillServeDate},</if>
+            <if test="chReturnPldaeMoney != null  and chReturnPldaeMoney != ''">ch_return_pldae_money = #{chReturnPldaeMoney},</if>
+            <if test="chReturnPldaeDate != null ">ch_return_pldae_date = #{chReturnPldaeDate},</if>
+            <if test="chSpecialistMoney != null  and chSpecialistMoney != ''">ch_specialist_money = #{chSpecialistMoney},</if>
+            <if test="chCount != null ">ch_count = #{chCount},</if>
+            <if test="chTotal != null  and chTotal != ''">ch_total = #{chTotal},</if>
+        </trim>
+        where ch_id = #{chId}
+    </update>
+
+    <delete id="deleteChargeById" parameterType="Long">
+        delete from charge where ch_id = #{chId}
+    </delete>
+
+    <delete id="deleteChargeByIds" parameterType="String">
+        delete from charge where ch_id in
+        <foreach item="chId" collection="array" open="(" separator="," close=")">
+            #{chId}
+        </foreach>
+    </delete>
+
+</mapper>
